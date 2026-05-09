@@ -6,17 +6,10 @@ on:
       - '*'
 
 jobs:
-  upload:
+  create-release:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - version: "13.3.rel1"
-            target: "arm-none-linux-gnueabihf"
-          - version: "13.3.rel1"
-            target: "aarch64-none-linux-gnu"
     steps:
-      - name: Create Release (if not exists)
+      - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -25,6 +18,17 @@ jobs:
             --title "${{ github.ref_name }}" \
             --notes "Toolchains" || true
 
+  upload:
+    runs-on: ubuntu-latest
+    needs: create-release
+    strategy:
+      matrix:
+        include:
+          - version: "13.3.rel1"
+            target: "arm-none-linux-gnueabihf"
+          - version: "13.3.rel1"
+            target: "aarch64-none-linux-gnu"
+    steps:
       - name: Download ARM GNU Toolchain
         run: |
           wget -q "https://developer.arm.com/-/media/Files/downloads/gnu/${{ matrix.version }}/binrel/arm-gnu-toolchain-${{ matrix.version }}-x86_64-${{ matrix.target }}.tar.xz"
