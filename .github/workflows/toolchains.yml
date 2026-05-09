@@ -83,7 +83,7 @@ jobs:
       matrix:
         include:
           - version: "0.13.0"
-            sha256: "d45f92f0ab3f28be48db2e34b6e03649a9a2de1b0dc8c48b85e20a4a3394d22a"
+            sha256: "d45312e61ebcc48032b77bc4cf7fd6915c11fa16e4aad116b66c9468211230ea"
     steps:
       - name: Download and Verify
         run: |
