@@ -1,0 +1,25 @@
+name: Zig
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - version: "0.13.0"
+    steps:
+      - name: Download Zig
+        run: |
+          curl -LO "https://ziglang.org/download/${{ matrix.version }}/zig-linux-x86_64-${{ matrix.version }}.tar.xz"
+
+      - name: Upload to Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" \
+            "zig-linux-x86_64-${{ matrix.version }}.tar.xz" \
+            --repo "${{ github.repository }}"

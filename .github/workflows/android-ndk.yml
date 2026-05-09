@@ -1,0 +1,25 @@
+name: Android NDK
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - version: "r22"
+    steps:
+      - name: Download Android NDK
+        run: |
+          wget -q "https://dl.google.com/android/repository/android-ndk-${{ matrix.version }}-linux-x86_64.zip"
+
+      - name: Upload to Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" \
+            "android-ndk-${{ matrix.version }}-linux-x86_64.zip" \
+            --repo "${{ github.repository }}"
