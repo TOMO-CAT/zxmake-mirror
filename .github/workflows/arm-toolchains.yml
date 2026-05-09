@@ -1,8 +1,9 @@
 name: ARM GNU Toolchains
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - '*'
 
 jobs:
   upload:
@@ -15,6 +16,15 @@ jobs:
           - version: "13.3.rel1"
             target: "aarch64-none-linux-gnu"
     steps:
+      - name: Create Release (if not exists)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            --repo "${{ github.repository }}" \
+            --title "${{ github.ref_name }}" \
+            --notes "Toolchains" || true
+
       - name: Download ARM GNU Toolchain
         run: |
           wget -q "https://developer.arm.com/-/media/Files/downloads/gnu/${{ matrix.version }}/binrel/arm-gnu-toolchain-${{ matrix.version }}-x86_64-${{ matrix.target }}.tar.xz"
@@ -23,6 +33,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload "${{ github.event.release.tag_name }}" \
+          gh release upload "${{ github.ref_name }}" \
             "arm-gnu-toolchain-${{ matrix.version }}-x86_64-${{ matrix.target }}.tar.xz" \
             --repo "${{ github.repository }}"

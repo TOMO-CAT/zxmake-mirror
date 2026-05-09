@@ -15,3 +15,11 @@ Toolchain mirrors for CI. Create a release to trigger downloads and uploads.
 ```bash
 https://github.com/TOMO-CAT/zxmake-mirror/releases/download/<tag>/<filename>
 ```
+
+## Create Release
+
+```bash
+git tag <tag> && git push origin <tag>
+```
+
+Push tag 后自动触发 workflow 创建 release 并上传所有工具链。
