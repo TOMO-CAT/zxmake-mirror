@@ -32,10 +32,10 @@ jobs:
         include:
           - version: "13.3.rel1"
             target: "arm-none-linux-gnueabihf"
-            sha256: "68e67c165ffd25e09e4bcea0e51f0d1e137427e41e03be1e2a0f20ed37ae85ae"
+            sha256: "560267bdecf966b7a48467d0af6c81a85b906ef7b0a9b9dd91f506184b940281"
           - version: "13.3.rel1"
             target: "aarch64-none-linux-gnu"
-            sha256: "2bfa60044a2c3d6be6e904f4e3e53ebe634b4608a0521381e922dfc30c955b54"
+            sha256: "322f0b4482fc0d9fa0bb468134841f08d8c554c54ff5aa29a13a7a24bf7e1eb5"
     steps:
       - name: Download and Verify
         run: |
